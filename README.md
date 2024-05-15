@@ -1,4 +1,4 @@
-# Auth0 Example
+# ALOGO AI Project
 
 <p>
   <!-- iOS -->

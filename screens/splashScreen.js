@@ -14,6 +14,8 @@ import {
   Pressable,
 } from "react-native";
 
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+
 
 export default function MainScreen() {
   const navigation = useNavigation();
@@ -38,17 +40,12 @@ export default function MainScreen() {
       >
         ALƆGƆ
       </Text> */}
-      <Image       source={require("../assets/images/Logo.png")}/>
+      <Image className="rounded-ful" source={{ uri: "https://i.goopics.net/rsa8ht.png" }} style={{height: hp(20), width: hp(20)}} />
 
       <Pressable style={styles.button} onPress={() => navigation.navigate('Home')}>
         <Text style={styles.text}>Commencer</Text>
       </Pressable>
       {/* className="bg-gradient-to-r from-green-400 to-blue-500" */}
-      {/* <TouchableOpacity onPress={()=> navigation.navigate('Home')} className="bg-emerald-600 mx-5 p-4 rounded-3xl">
-        <Text style={{fontSize: 20}} className="text-center font-bold text-white">
-          Commencer
-        </Text>
-      </TouchableOpacity> */}
     </View>
   );
 }
