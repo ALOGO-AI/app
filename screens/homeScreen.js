@@ -24,6 +24,7 @@ import TransfertPage from './actions/transfert';
 import OTPPage from './actions/otp';
 
 import SpeechToTextService from '../services/speechToText';
+import TextToActionService from '../services/textToAction';
 
 import { Audio } from 'expo-av';
 import * as Speech from 'expo-speech';
@@ -35,6 +36,7 @@ const App = () => {
   const [recording, setRecording] = useState(false);
   const [loading, setLoading] = useState(false);
   const [action, setAction] = useState();
+  const [ttext, setText] = useState('');
   const [language, setLanguage] = useState("fr-Fr");
   const [permissionResponse, requestPermission] = Audio.usePermissions();
   const [sound, setSound] = useState(null);
@@ -192,22 +194,26 @@ const App = () => {
       const fileName = dateString;
 
       // Copier le fichier audio vers le répertoire créé
-      // const destinationUri = `${FileSystem.documentDirectory}audios/${fileName}`;
-      // await FileSystem.copyAsync({ from: uri, to: destinationUri }); // moveAsync
+      const destinationUri = `${FileSystem.documentDirectory}audios/${fileName}.wav`;
 
-      console.log('Recording stopped and stored at', uri);
+      await FileSystem.copyAsync({ from: uri, to: destinationUri }); // moveAsync
 
-      fetchResponse(uri);
+      console.log('Recording stopped and stored at', destinationUri);
+
+      await transcribeAudio(destinationUri);
+
       setRecording(undefined);
       // setRecording(false);
     } catch (error) {
       console.log('Erreur lors de l\'arrêt du vocal : ', error);
+      setRecording(undefined);
+      setLoading(false);
     }
   };
 
-  // Récupérer la réponse de ChatGPT
-  const fetchResponse = async (audio) => {
-    console.log("coucou fetch :", audio);
+  // Récupérer la réponse de transcription
+  const transcribeAudio = async (audio) => {
+    // console.log("Hello transcribeAudio :", audio);
     try {
       setLoading(true);
   
@@ -216,14 +222,18 @@ const App = () => {
   
       // setLoading(false);
   
-      if (response.success) {
-        const action = response.action;
-  
+      if (response.ok) {
+        const text = response.text();
+        setText(text);
+        const resultAction = await TextToActionService.getAction(text);
+        console.log("resultAction", resultAction);
+        
         // Navigation vers l'écran en fonction de l'action reçue de l'API
-        setAction(action)
-  
+        setAction(resultAction);
+        setLoading(false);
       } else {
         Alert.alert('Erreur', response.msg);
+        setLoading(false);
       }
     } catch (error) {
       console.error('Erreur lors de la récupération de la réponse :', error);
@@ -266,7 +276,15 @@ const App = () => {
                 return (
                   <CreditCardPage />
                 );
+              case 'Card':
+                return (
+                  <CreditCardPage />
+                );
               case 'Statement':
+                return (
+                  <BankAccountStatementPage />
+                );
+              case 'Balance':
                 return (
                   <BankAccountStatementPage />
                 );

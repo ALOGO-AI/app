@@ -1,35 +1,26 @@
 import React from 'react';
 import * as FileSystem from 'expo-file-system';
 
-const API_URL = 'YOUR_API_ENDPOINT';
-const API_KEY = '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';
-
+const API_KEY = "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";
 
 const SpeechToTextService = {
   transcribeSpeech: async (audioFile) => {
     try {
-      const formData = new FormData();
-      formData.append('audio', {
-        uri: audioFile.uri,
-        type: 'audio/mp3',
-        name: 'audio.mp3',
+      // Read audio file asynchronously
+      const audioData = await FileSystem.readAsStringAsync(audioFile, {
+        encoding: FileSystem.EncodingType.Base64,
       });
 
-      console.log("Form data : ", formData);
-
-      // const response = await fetch(API_URL, {
-      //   method: 'POST',
-      //   body: formData,
-      // });
-
-      // if (!response.ok) {
-      //   throw new Error('Failed to transcribe speech');
-      // }
-
-      const response = await fongbeAsr(audioFile).then((response) => {
-        console.log(JSON.stringify(response));
-      });
-      // console.log(response);
+      const data = FileSystem.readAsStringAsync(audioFile);
+      const response = await fetch(
+        "https://api-inference.huggingface.co/models/chrisjay/fonxlsr",
+        {
+          headers: { Authorization: "Bearer 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", "Content-Type": "application/json", },
+          method: "POST",
+          body: JSON.stringify({ data: audioData }),
+        }
+      );
+      console.log("response de l'api fonxlsr : ", JSON.stringify(response));
 
       const transcription = await response.json();
       return transcription;
@@ -41,19 +32,3 @@ const SpeechToTextService = {
 };
 
 export default SpeechToTextService;
-
-
-async function fongbeAsr(filename) {
-	const data = FileSystem.readAsStringAsync(filename);
-	const response = await fetch(
-		"https://api-inference.huggingface.co/models/speechbrain/asr-wav2vec2-dvoice-fongbe",
-		{
-			headers: { Authorization: `Bearer ${API_KEY}` },
-			method: "POST",
-			body: data,
-		}
-	);
-  // console.log("response fongbeAsr : ", response);
-	const result = await response.json();
-	return result;
-}
