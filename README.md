@@ -1,37 +1,88 @@
 # ALOGO AI Project
 
-<p>
-  <!-- iOS -->
-  <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/iOS-4630EB.svg?style=flat-square&logo=APPLE&labelColor=999999&logoColor=fff" />
-  <!-- Android -->
-  <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Android-4630EB.svg?style=flat-square&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
-  <!-- Web -->
-  <img alt="Supports Expo Web" longdesc="Supports Expo Web" src="https://img.shields.io/badge/web-4630EB.svg?style=flat-square&logo=GOOGLE-CHROME&labelColor=4285F4&logoColor=fff" />
-</p>
+Voice Assistant App
 
-## 🚀 How to use
+This project is a React Native application that provides a voice assistant interface in Fon, Dendi, and Yoruba languages. The application allows users to record audio, convert it to text using an API, and navigate to different screens based on the transcription.
 
-- Install with `yarn` or `npm install`.
-- Create your own app on [Auth0](https://auth0.com).
-- Add the `AuthSession` auth URL to `Allowed Callback URLs` on Auth0.
-- Open `App.js` and replace `auth0ClientId` and `auth0Domain` with your app settings.
-- Run `yarn start` or `npm run start` to try it out.
+## Features
 
-#### AuthSession callback URL
+- Voice recording and playback
+- OTP verification with a 4-digit input
+- Audio file conversion from `.m4a` to `.wav`
+- User authentication: Login and Sign-up pages
+- Bank functionalities: Account statement, card information, and money transfer forms
 
-The AuthSession helps you with browser authentication, without the need of an additional server or website. To use this with Auth0 authentication flows, we need to tell Auth0 that the callback URLs are allowed.
+## Installation
 
-Each Expo user has it's own URL for different projects, the basic structure of this URL is `https://auth.expo.io/@your-username/your-expo-app-slug`. If you are signed in as `awesome-ppl`, and your app is called `meme-explorer`, your URL looks like `https://auth.expo.io/@awesome-ppl/meme-explorer`.
+To get started with the project, follow these steps:
 
-> [Read more about AuthSession here](https://docs.expo.dev/versions/latest/sdk/auth-session/)
+1. **Clone the repository:**
 
-#### Auth0 app settings
+    ```bash
+    git clone [https://github.com/ALOGO-AI/app.git](https://github.com/ALOGO-AI/app.git)
+    cd app
+    ```
 
-Both the `auth0ClientId` and `auth0Domain` needs to match your Auth0 app settings.
+2. **Install dependencies:**
 
-![Application Settings](https://i.imgur.com/Io9I4qg.jpg)
+    ```bash
+    npm install
+    ```
 
-## 📝 Notes
+3. **Install Expo CLI globally:**
 
-- [Expo AuthSession docs](https://docs.expo.dev/versions/latest/sdk/auth-session/)
-- [Auth0 React/SPA quickstart guide](https://auth0.com/docs/quickstart/spa/react)
+    ```bash
+    npm install -g expo-cli
+    ```
+
+## Running the App
+
+1. **Start the development server:**
+
+    ```bash
+    expo start
+    ```
+
+2. **Open the app in Expo Go on your device or in an emulator.**
+
+## Usage
+
+### OTP Verification
+
+The OTP verification page allows users to enter a 4-digit OTP. Each input field accepts only one digit.
+
+### Audio Recording and Playback
+
+Users can record audio by pressing a button. The audio is then sent to an API for transcription. The transcription is displayed on the screen, and the user can navigate to different screens based on the transcribed text.
+
+### Audio Conversion
+
+The app includes functionality to convert recorded audio from `.m4a` to `.wav` format.
+
+### Bank Features
+
+- **Login Page:** Users can log in with their credentials.
+- **Sign-Up Page:** New users can create an account by providing their name, phone number, and password.
+- **Account Statement:** View the account statement.
+- **Card Information:** Display card information.
+- **Money Transfer:** Fill out a form to transfer money to another account.
+
+## Code Structure
+
+- `App.js`: Main entry point of the application.
+- `components/OTPVerificationPage.js`: OTP verification page with 4-digit input fields.
+- `components/TransferFormPage.js`: Form for money transfers.
+- `components/LoginPage.js`: User login page.
+- `components/SignUpPage.js`: User sign-up page.
+- `components/AccountStatementPage.js`: Page to display account statements.
+- `components/CardInfoPage.js`: Page to display card information.
+- `utils/audioUtils.js`: Utility functions for audio processing.
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request for any changes.
+
+## Contact
+
+For questions or support, please contact [agossoukoudous25@gmail.com](mailto:agossoukoudous25@gmail.com).
+
